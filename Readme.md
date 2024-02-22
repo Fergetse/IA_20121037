@@ -21,3 +21,50 @@ En el segundo caso es un sólo camino de elección, por lo que directamente la p
 Sin embargo en el primero además de la probabilidad de 1/100 se tiene el factor de elección al azar de 100!/50! que hace más caótico el proceso de elección
 
 **CON BASE A LO DESCRITO, se establece que la secuencia de percepción es que cada individuo siga la estrategia descrita anteriormente y la medida de rendimiento es que cada prisionero encuentre su número en el rango de esas 50 oportunidades**
+
+
+
+# CV2 for color vision
+
+```python
+
+
+import cv2 as cv
+
+cap = cv.VideoCapture(0)
+while(True):
+    ret, img = cap.read()
+
+    img2 = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+ 
+    if ret == True:
+        cv.imshow('video2', img2)
+        cv.imshow('video', img)
+
+        ubb=(40,60,60)
+        uba=(60, 255,255)
+
+        #ubb1=(170,60,60)
+        #uba1=(180,255,255)
+
+        mask1 = cv.inRange(img2, ubb, uba)
+
+        #mask2 = cv.inRange(img2, ubb1, uba1)
+
+        mask3 = mask1 #+ mask2
+        img3 = cv.bitwise_and(img,img, mask=mask3)
+
+        cv.imshow('mask3', mask3)
+        cv.imshow('img', img)
+        cv.imshow('img3', img3)
+
+        k =cv.waitKey(20) & 0xFF
+        if k == 27 :
+            break
+    else:
+        break
+cap.release()
+cv.destroyAllWindows()
+
+
+```
